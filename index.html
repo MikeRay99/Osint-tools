@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Mastery Toolkit</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #0066cc;
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --highlight: #e5e5ea;
+        }
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light);
+        }
+        h1 {
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .module-nav {
+            display: flex;
+            overflow-x: auto;
+            gap: 5px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        .module-nav button {
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .module-nav button.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        .module-content {
+            display: none;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .module-content.active {
+            display: block;
+        }
+        .tool-section {
+            margin-bottom: 25px;
+        }
+        .tool-section h3 {
+            color: var(--dark);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        .tool-link {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: var(--light);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--secondary);
+            transition: background 0.2s;
+        }
+        .tool-link:hover {
+            background: var(--highlight);
+        }
+        .exercise {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .exercise h4 {
+            margin-top: 0;
+            color: var(--secondary);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .dork-result {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            .module-nav {
+                gap: 3px;
+            }
+            .module-nav button {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>OSINT Mastery Toolkit</h1>
+    <p class="subtitle">Course Companion & Quick Access Tool</p>
+    
+    <div class="module-nav">
+        <button onclick="showModule(1)" class="active">Intro</button>
+        <button onclick="showModule(2)">Methodology</button>
+        <button onclick="showModule(3)">Core Tools</button>
+        <button onclick="showModule(4)">Advanced</button>
+        <button onclick="showModule(5)">Scenarios</button>
+        <button onclick="showModule(6)">Privacy</button>
+        <button onclick="showModule(7)">Ethics</button>
+        <button onclick="showModule(8)">Resources</button>
+    </div>
+    
+    <!-- Module 1: Introduction to OSINT -->
+    <div id="module-1" class="module-content active">
+        <h2>Introduction to OSINT</h2>
+        <div class="tool-section">
+            <h3>Key Concepts</h3>
+            <div class="tool-link" onclick="toggleInfo('what-is-osint')">What is OSINT?</div>
+            <div id="what-is-osint" style="display:none; padding:10px; background:#f9f9f9; border-radius:5px; margin:5px 0;">
+                Open Source Intelligence (OSINT) is the collection and analysis of publicly available information for intelligence purposes.
+            </div>
+            <div class="tool-link" onclick="toggleInfo('why-osint-matters')">Why OSINT Matters</div>
+            <div id="why-osint-matters" style="display:none; padding:10px; background:#f9f9f9; border-radius:5px; margin:5px 0;">
+                Used in cybersecurity, journalism, law enforcement, and personal privacy protection.
+            </div>
+        </div>
+    </div>
+    
+    <!-- Module 2: OSINT Mindset and Methodology -->
+    <div id="module-2" class="module-content">
+        <h2>OSINT Methodology</h2>
+        <div class="tool-section">
+            <h3>Process</h3>
+            <a href="#" class="tool-link">Reconnaissance</a>
+            <a href="#" class="tool-link">Pivoting</a>
+            <a href="#" class="tool-link">Documentation</a>
+        </div>
+        
+        <div class="exercise">
+            <h4>Mind Mapping Exercise</h4>
+            <p>Create a mind map for a fictional target:</p>
+            <ul>
+                <li>Phone numbers</li>
+                <li>Emails</li>
+                <li>Addresses</li>
+                <li>Relatives</li>
+                <li>Social media</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Module 3: Core OSINT Tools and Techniques -->
+    <div id="module-3" class="module-content">
+        <h2>Core OSINT Tools</h2>
+        
+        <div class="tool-section">
+            <h3>Search Engine Mastery</h3>
+            <a href="https://www.google.com" class="tool-link">Google Search</a>
+            <a href="https://yandex.com" class="tool-link">Yandex</a>
+            
+            <div class="exercise">
+                <h4>Google Dorking Exercise</h4>
+                <p>Find PDF files about a specific topic from 2020:</p>
+                <input type="text" id="dork-topic" placeholder="Enter topic">
+                <button onclick="generateDork()">Generate Dork</button>
+                <div id="dork-result" class="dork-result" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <div class="tool-section">
+            <h3>People Search</h3>
+            <a href="https://fastpeoplesearch.com" class="tool-link">FastPeopleSearch</a>
+            <a href="https://www.truepeoplesearch.com" class="tool-link">TruePeopleSearch</a>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Username Search</h3>
+            <a href="https://whatsmyname.app" class="tool-link">WhatsMyName.app</a>
+        </div>
+    </div>
+    
+    <!-- Module 4-8 would follow similar structure -->
+    
+    <!-- Module 8: OSINT Toolkits and Resources -->
+    <div id="module-8" class="module-content">
+        <h2>OSINT Resources</h2>
+        
+        <div class="tool-section">
+            <h3>People Search</h3>
+            <a href="https://fastpeoplesearch.com" class="tool-link">FastPeopleSearch</a>
+            <a href="https://www.truepeoplesearch.com" class="tool-link">TruePeopleSearch</a>
+            <a href="https://radaris.com" class="tool-link">Radaris</a>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Social Media</h3>
+            <a href="https://whatsmyname.app" class="tool-link">WhatsMyName.app</a>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Domain Tools</h3>
+            <a href="https://whois.domaintools.com" class="tool-link">WHOIS Lookup</a>
+            <a href="https://archive.org/web" class="tool-link">Wayback Machine</a>
+        </div>
+        
+        <div class="tool-section">
+            <h3>Breach Data</h3>
+            <a href="https://haveibeenpwned.com" class="tool-link">HaveIBeenPwned</a>
+        </div>
+    </div>
+
+    <script>
+        // Show selected module, hide others
+        function showModule(moduleNum) {
+            document.querySelectorAll('.module-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.module-nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`module-${moduleNum}`).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Toggle info displays
+        function toggleInfo(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Google dork generator
+        function generateDork() {
+            const topic = document.getElementById('dork-topic').value.trim();
+            if (topic) {
+                const dork = `filetype:pdf ${topic} after:2019-12-31 before:2021-01-01`;
+                const resultEl = document.getElementById('dork-result');
+                resultEl.textContent = dork;
+                resultEl.style.display = 'block';
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(dork).then(() => {
+                    alert('Dork copied to clipboard!');
+                });
+            }
+        }
+        
+        // Initialize with Module 1 active
+        document.addEventListener('DOMContentLoaded', function() {
+            // Any initialization code can go here
+        });
+    </script>
+</body>
+</html>
