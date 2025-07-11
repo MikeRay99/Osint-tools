@@ -35,13 +35,14 @@
         .search-container {
             margin: 20px 0;
         }
-        #search {
+        #tool-search {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 16px;
             box-sizing: border-box;
+            margin-bottom: 20px;
         }
         .tool-section {
             margin-bottom: 30px;
@@ -114,59 +115,46 @@
             background: var(--highlight);
             border-color: var(--primary);
         }
-        /* Dorking dropdown styles */
-        .dorking-container {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            margin-top: 10px;
+        /* Search engine styles */
+        .engine-search-form {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
         }
-        .dorking-btn {
+        .engine-search-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .engine-search-btn {
             padding: 10px 15px;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            width: 100%;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-        .dorking-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 100%;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-            z-index: 1;
-            border-radius: 6px;
-            padding: 10px;
-            border: 1px solid #e5e7eb;
+        .engine-search-btn:hover {
+            background: var(--secondary);
         }
-        .dorking-content a {
-            color: var(--dark);
-            padding: 8px 12px;
-            text-decoration: none;
-            display: block;
-            border-radius: 4px;
+        .dorking-operators {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #4b5563;
         }
-        .dorking-content a:hover {
-            background-color: var(--highlight);
+        .operator {
+            display: inline-block;
+            margin: 2px;
+            padding: 3px 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            font-family: monospace;
+            cursor: pointer;
         }
-        .show {
-            display: block;
-        }
-        .search-engine-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .search-engine-icon {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
+        .operator:hover {
+            background: #d1d5db;
         }
         @media (max-width: 600px) {
             .tool-grid {
@@ -174,6 +162,13 @@
             }
             body {
                 padding: 15px;
+            }
+            .quick-actions {
+                gap: 5px;
+            }
+            .quick-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -183,7 +178,7 @@
     <p class="subtitle">Quick access to essential open-source intelligence tools</p>
     
     <div class="search-container">
-        <input type="text" id="search" placeholder="Search tools...">
+        <input type="text" id="tool-search" placeholder="Search tools...">
     </div>
     
     <div class="quick-actions">
@@ -195,77 +190,176 @@
         <button class="quick-btn" onclick="showCategory('images')">Image Search</button>
     </div>
 
-    <!-- New Search Engine Section -->
-    <div class="tool-section">
+    <!-- Search Engine Section -->
+    <div class="tool-section" id="search-section">
         <h2>Search Engines</h2>
-        <div class="tool-grid" id="search-tools">
+        <div class="tool-grid">
             <div class="tool-card" data-category="search">
-                <div class="search-engine-card">
-                    <img src="https://duckduckgo.com/assets/logo_social-media.png" alt="DuckDuckGo" class="search-engine-icon">
-                    <div>
-                        <h3>DuckDuckGo</h3>
-                        <p>Privacy-focused search engine that doesn't track you</p>
-                    </div>
-                </div>
-                <a href="https://duckduckgo.com" class="tool-link" target="_blank">Open DuckDuckGo</a>
-            </div>
-            
-            <div class="tool-card" data-category="search">
-                <div class="search-engine-card">
-                    <img src="https://yastatic.net/s3/home-static/_/92/929b6e5d1a7d4c8a2c3b2e4a7f0a7f0e.png" alt="Yandex" class="search-engine-icon">
-                    <div>
-                        <h3>Yandex</h3>
-                        <p>Russian search engine with strong image and regional results</p>
-                    </div>
-                </div>
-                <a href="https://yandex.com" class="tool-link" target="_blank">Open Yandex</a>
-            </div>
-            
-            <div class="tool-card" data-category="search">
-                <div class="search-engine-card">
-                    <img src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png" alt="Google" class="search-engine-icon">
-                    <div>
-                        <h3>Google</h3>
-                        <p>The most comprehensive search engine with advanced operators</p>
-                    </div>
-                </div>
-                <a href="https://google.com" class="tool-link" target="_blank">Open Google</a>
+                <h3>Google</h3>
+                <p>The most comprehensive search engine with advanced operators</p>
                 
-                <!-- Google Dorking Dropdown -->
-                <div class="dorking-container">
-                    <button onclick="toggleDorking()" class="dorking-btn">
-                        Google Dorking Operators ▼
-                    </button>
-                    <div id="dorkingDropdown" class="dorking-content">
-                        <a href="#" onclick="insertDork('inurl:')">inurl: - Search within URLs</a>
-                        <a href="#" onclick="insertDork('allinurl:')">allinurl: - All terms in URL</a>
-                        <a href="#" onclick="insertDork('intitle:')">intitle: - Search in page titles</a>
-                        <a href="#" onclick="insertDork('allintitle:')">allintitle: - All terms in title</a>
-                        <a href="#" onclick="insertDork('intext:')">intext: - Search in page text</a>
-                        <a href="#" onclick="insertDork('allintext:')">allintext: - All terms in text</a>
-                        <a href="#" onclick="insertDork('filetype:')">filetype: - Search by file type</a>
-                        <a href="#" onclick="insertDork('ext:')">ext: - Search by file extension</a>
-                        <a href="#" onclick="insertDork('cache:')">cache: - Show cached version</a>
-                        <a href="#" onclick="insertDork('related:')">related: - Find similar sites</a>
-                        <a href="#" onclick="insertDork('link:')">link: - Sites linking to URL</a>
-                        <a href="#" onclick="insertDork('define:')">define: - Get definitions</a>
-                        <a href="#" onclick="insertDork('*')">* - Wildcard search</a>
-                        <a href="#" onclick="insertDork(' OR ')" style="font-family: monospace;">OR - Combine searches</a>
-                        <a href="#" onclick="insertDork(' -')" style="font-family: monospace;">- - Exclude terms</a>
-                        <a href="#" onclick="insertDork('\"\"')" style="font-family: monospace;">"" - Exact phrase</a>
-                        <a href="#" onclick="insertDork('..')" style="font-family: monospace;">.. - Number range</a>
-                    </div>
+                <form class="engine-search-form" onsubmit="searchGoogle(event)">
+                    <input type="text" class="engine-search-input" placeholder="Search Google..." id="google-query">
+                    <button type="submit" class="engine-search-btn">Search</button>
+                </form>
+                
+                <div class="dorking-operators">
+                    <strong>Dorking operators:</strong><br>
+                    <span class="operator" onclick="insertOperator('inurl:', 'google-query')">inurl:</span>
+                    <span class="operator" onclick="insertOperator('allinurl:', 'google-query')">allinurl:</span>
+                    <span class="operator" onclick="insertOperator('intitle:', 'google-query')">intitle:</span>
+                    <span class="operator" onclick="insertOperator('allintitle:', 'google-query')">allintitle:</span>
+                    <span class="operator" onclick="insertOperator('intext:', 'google-query')">intext:</span>
+                    <span class="operator" onclick="insertOperator('allintext:', 'google-query')">allintext:</span>
+                    <span class="operator" onclick="insertOperator('filetype:', 'google-query')">filetype:</span>
+                    <span class="operator" onclick="insertOperator('ext:', 'google-query')">ext:</span>
+                    <span class="operator" onclick="insertOperator('cache:', 'google-query')">cache:</span>
+                    <span class="operator" onclick="insertOperator('related:', 'google-query')">related:</span>
+                    <span class="operator" onclick="insertOperator('link:', 'google-query')">link:</span>
+                    <span class="operator" onclick="insertOperator('define:', 'google-query')">define:</span>
+                    <span class="operator" onclick="insertOperator('*', 'google-query')">*</span>
+                    <span class="operator" onclick="insertOperator(' OR ', 'google-query')">OR</span>
+                    <span class="operator" onclick="insertOperator(' -', 'google-query')">-</span>
+                    <span class="operator" onclick="insertOperator('\"\"', 'google-query')">""</span>
+                    <span class="operator" onclick="insertOperator('..', 'google-query')">..</span>
                 </div>
+            </div>
+            
+            <div class="tool-card" data-category="search">
+                <h3>DuckDuckGo</h3>
+                <p>Privacy-focused search engine that doesn't track you</p>
+                
+                <form class="engine-search-form" onsubmit="searchDuckDuckGo(event)">
+                    <input type="text" class="engine-search-input" placeholder="Search DuckDuckGo..." id="ddg-query">
+                    <button type="submit" class="engine-search-btn">Search</button>
+                </form>
+            </div>
+            
+            <div class="tool-card" data-category="search">
+                <h3>Yandex</h3>
+                <p>Russian search engine with strong image and regional results</p>
+                
+                <form class="engine-search-form" onsubmit="searchYandex(event)">
+                    <input type="text" class="engine-search-input" placeholder="Search Yandex..." id="yandex-query">
+                    <button type="submit" class="engine-search-btn">Search</button>
+                </form>
             </div>
         </div>
     </div>
     
-    <!-- Rest of your existing tool sections (People Search, Domain Tools, etc.) -->
-    <!-- ... (previous HTML content for other sections remains the same) ... -->
+    <!-- People Search Section -->
+    <div class="tool-section" id="people-section">
+        <h2>People Search</h2>
+        <div class="tool-grid">
+            <div class="tool-card" data-category="people">
+                <h3>FastPeopleSearch</h3>
+                <p>Comprehensive people search with addresses, phones, and relatives</p>
+                <a href="https://fastpeoplesearch.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="people">
+                <h3>TruePeopleSearch</h3>
+                <p>Find people by name, phone, or address with family connections</p>
+                <a href="https://www.truepeoplesearch.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="people">
+                <h3>Radaris</h3>
+                <p>People search with professional and social media profiles</p>
+                <a href="https://radaris.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Domain & Website Intelligence Section -->
+    <div class="tool-section" id="domain-section">
+        <h2>Domain & Website Intelligence</h2>
+        <div class="tool-grid">
+            <div class="tool-card" data-category="domain">
+                <h3>WHOIS Lookup</h3>
+                <p>Find domain registration information and ownership details</p>
+                <a href="https://whois.domaintools.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="domain">
+                <h3>Wayback Machine</h3>
+                <p>View historical versions of any website</p>
+                <a href="https://archive.org/web" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="domain">
+                <h3>VirusTotal</h3>
+                <p>Analyze websites and files for malware and reputation</p>
+                <a href="https://www.virustotal.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="domain">
+                <h3>BuiltWith</h3>
+                <p>Discover what technologies a website is using</p>
+                <a href="https://builtwith.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Social Media Intelligence Section -->
+    <div class="tool-section" id="social-section">
+        <h2>Social Media Intelligence</h2>
+        <div class="tool-grid">
+            <div class="tool-card" data-category="social">
+                <h3>WhatsMyName</h3>
+                <p>Username search across hundreds of social networks</p>
+                <a href="https://whatsmyname.app" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="social">
+                <h3>Social Searcher</h3>
+                <p>Search across multiple social networks simultaneously</p>
+                <a href="https://www.social-searcher.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="social">
+                <h3>TweetDeck</h3>
+                <p>Advanced Twitter search and monitoring</p>
+                <a href="https://tweetdeck.twitter.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Image Search & Analysis Section -->
+    <div class="tool-section" id="image-section">
+        <h2>Image Search & Analysis</h2>
+        <div class="tool-grid">
+            <div class="tool-card" data-category="images">
+                <h3>Google Images</h3>
+                <p>Reverse image search with powerful filters</p>
+                <a href="https://images.google.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="images">
+                <h3>TinEye</h3>
+                <p>Find where images appear online</p>
+                <a href="https://tineye.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="images">
+                <h3>Yandex Images</h3>
+                <p>Powerful reverse image search with facial recognition</p>
+                <a href="https://yandex.com/images" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Data Breaches & Security Section -->
+    <div class="tool-section" id="security-section">
+        <h2>Data Breaches & Security</h2>
+        <div class="tool-grid">
+            <div class="tool-card" data-category="security">
+                <h3>Have I Been Pwned</h3>
+                <p>Check if your email appears in data breaches</p>
+                <a href="https://haveibeenpwned.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="security">
+                <h3>DeHashed</h3>
+                <p>Search across multiple data breaches</p>
+                <a href="https://www.dehashed.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Search functionality
-        document.getElementById('search').addEventListener('input', function(e) {
+        // Tool search functionality
+        document.getElementById('tool-search').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const cards = document.querySelectorAll('.tool-card');
             
@@ -281,44 +375,49 @@
         
         // Category filtering
         function showCategory(category) {
-            const cards = document.querySelectorAll('.tool-card');
+            const sections = document.querySelectorAll('.tool-section');
             
-            cards.forEach(card => {
-                if (category === 'all') {
-                    card.style.display = 'block';
-                } else {
-                    if (card.dataset.category === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
+            if (category === 'all') {
+                sections.forEach(section => {
+                    section.style.display = 'block';
+                });
+            } else {
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                document.getElementById(category + '-section').style.display = 'block';
+            }
+            
+            // Show all cards within visible sections
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.style.display = 'block';
             });
         }
         
-        // Dorking dropdown functions
-        function toggleDorking() {
-            document.getElementById('dorkingDropdown').classList.toggle('show');
+        // Search engine functions
+        function searchGoogle(e) {
+            e.preventDefault();
+            const query = document.getElementById('google-query').value;
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
         }
         
-        function insertDork(operator) {
-            const googleUrl = 'https://www.google.com/search?q=';
-            const searchQuery = operator + ' '; // Add space after operator
-            window.open(googleUrl + encodeURIComponent(searchQuery), '_blank');
-            return false; // Prevent default anchor behavior
+        function searchDuckDuckGo(e) {
+            e.preventDefault();
+            const query = document.getElementById('ddg-query').value;
+            window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, '_blank');
         }
         
-        // Close the dropdown if clicked outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.dorking-btn')) {
-                const dropdowns = document.getElementsByClassName('dorking-content');
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
+        function searchYandex(e) {
+            e.preventDefault();
+            const query = document.getElementById('yandex-query').value;
+            window.open(`https://yandex.com/search/?text=${encodeURIComponent(query)}`, '_blank');
+        }
+        
+        // Dorking operator insertion
+        function insertOperator(operator, fieldId) {
+            const field = document.getElementById(fieldId);
+            field.value = operator + ' ';
+            field.focus();
         }
         
         // Initialize with all tools showing
