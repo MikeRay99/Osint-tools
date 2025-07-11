@@ -1,16 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSINT Mastery Toolkit</title>
+    <title>OSINT Toolkit</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #0066cc;
-            --dark: #1d1d1f;
-            --light: #f5f5f7;
-            --highlight: #e5e5ea;
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --highlight: #dbeafe;
         }
         body {
             font-family: -apple-system, system-ui, sans-serif;
@@ -22,272 +23,265 @@
             background-color: var(--light);
         }
         h1 {
-            color: var(--secondary);
+            color: var(--primary);
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .subtitle {
             text-align: center;
-            color: #666;
+            color: #4b5563;
             margin-bottom: 30px;
+            font-size: 1.1rem;
         }
-        .module-nav {
-            display: flex;
-            overflow-x: auto;
-            gap: 5px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+        .search-container {
+            margin: 20px 0;
         }
-        .module-nav button {
-            padding: 10px 15px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 14px;
-        }
-        .module-nav button.active {
-            background: var(--secondary);
-            color: white;
-            border-color: var(--secondary);
-        }
-        .module-content {
-            display: none;
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .module-content.active {
-            display: block;
+        #search {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
         }
         .tool-section {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .tool-section h3 {
+        .tool-section h2 {
             color: var(--dark);
-            border-bottom: 1px solid #eee;
+            border-bottom: 2px solid var(--highlight);
             padding-bottom: 8px;
-            margin-bottom: 12px;
+            margin-top: 0;
         }
-        .tool-link {
-            display: block;
-            padding: 12px;
-            margin: 8px 0;
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        .tool-card {
+            padding: 15px;
             background: var(--light);
             border-radius: 8px;
+            transition: all 0.2s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+        .tool-card h3 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .tool-card p {
+            color: #4b5563;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .tool-link {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
             text-decoration: none;
-            color: var(--secondary);
+            font-size: 0.85rem;
             transition: background 0.2s;
         }
         .tool-link:hover {
-            background: var(--highlight);
+            background: var(--secondary);
         }
-        .exercise {
-            background: #f8f9fa;
-            padding: 15px;
-            border-left: 4px solid var(--secondary);
+        .quick-actions {
+            display: flex;
+            gap: 10px;
             margin: 20px 0;
-            border-radius: 0 8px 8px 0;
+            flex-wrap: wrap;
         }
-        .exercise h4 {
-            margin-top: 0;
-            color: var(--secondary);
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: var(--secondary);
-            color: white;
-            border: none;
+        .quick-btn {
             padding: 10px 15px;
+            background: var(--light);
             border-radius: 8px;
+            border: 1px solid #d1d5db;
             cursor: pointer;
-            margin: 5px 0;
+            transition: all 0.2s;
         }
-        .dork-result {
-            background: #333;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: monospace;
-            margin-top: 10px;
-            overflow-x: auto;
+        .quick-btn:hover {
+            background: var(--highlight);
+            border-color: var(--primary);
         }
         @media (max-width: 600px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
             body {
                 padding: 15px;
-            }
-            .module-nav {
-                gap: 3px;
-            }
-            .module-nav button {
-                padding: 8px 12px;
-                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>OSINT Mastery Toolkit</h1>
-    <p class="subtitle">Course Companion & Quick Access Tool</p>
+    <h1>OSINT Toolkit</h1>
+    <p class="subtitle">Quick access to essential open-source intelligence tools</p>
     
-    <div class="module-nav">
-        <button onclick="showModule(1)" class="active">Intro</button>
-        <button onclick="showModule(2)">Methodology</button>
-        <button onclick="showModule(3)">Core Tools</button>
-        <button onclick="showModule(4)">Advanced</button>
-        <button onclick="showModule(5)">Scenarios</button>
-        <button onclick="showModule(6)">Privacy</button>
-        <button onclick="showModule(7)">Ethics</button>
-        <button onclick="showModule(8)">Resources</button>
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Search tools...">
     </div>
     
-    <!-- Module 1: Introduction to OSINT -->
-    <div id="module-1" class="module-content active">
-        <h2>Introduction to OSINT</h2>
-        <div class="tool-section">
-            <h3>Key Concepts</h3>
-            <div class="tool-link" onclick="toggleInfo('what-is-osint')">What is OSINT?</div>
-            <div id="what-is-osint" style="display:none; padding:10px; background:#f9f9f9; border-radius:5px; margin:5px 0;">
-                Open Source Intelligence (OSINT) is the collection and analysis of publicly available information for intelligence purposes.
+    <div class="quick-actions">
+        <button class="quick-btn" onclick="showCategory('all')">All Tools</button>
+        <button class="quick-btn" onclick="showCategory('people')">People Search</button>
+        <button class="quick-btn" onclick="showCategory('domain')">Domain Tools</button>
+        <button class="quick-btn" onclick="showCategory('social')">Social Media</button>
+        <button class="quick-btn" onclick="showCategory('images')">Image Search</button>
+    </div>
+    
+    <div class="tool-section">
+        <h2>People Search</h2>
+        <div class="tool-grid" id="people-tools">
+            <div class="tool-card" data-category="people">
+                <h3>FastPeopleSearch</h3>
+                <p>Comprehensive people search with addresses, phones, and relatives</p>
+                <a href="https://fastpeoplesearch.com" class="tool-link" target="_blank">Open Tool</a>
             </div>
-            <div class="tool-link" onclick="toggleInfo('why-osint-matters')">Why OSINT Matters</div>
-            <div id="why-osint-matters" style="display:none; padding:10px; background:#f9f9f9; border-radius:5px; margin:5px 0;">
-                Used in cybersecurity, journalism, law enforcement, and personal privacy protection.
+            <div class="tool-card" data-category="people">
+                <h3>TruePeopleSearch</h3>
+                <p>Find people by name, phone, or address with family connections</p>
+                <a href="https://www.truepeoplesearch.com" class="tool-link" target="_blank">Open Tool</a>
             </div>
-        </div>
-    </div>
-    
-    <!-- Module 2: OSINT Mindset and Methodology -->
-    <div id="module-2" class="module-content">
-        <h2>OSINT Methodology</h2>
-        <div class="tool-section">
-            <h3>Process</h3>
-            <a href="#" class="tool-link">Reconnaissance</a>
-            <a href="#" class="tool-link">Pivoting</a>
-            <a href="#" class="tool-link">Documentation</a>
-        </div>
-        
-        <div class="exercise">
-            <h4>Mind Mapping Exercise</h4>
-            <p>Create a mind map for a fictional target:</p>
-            <ul>
-                <li>Phone numbers</li>
-                <li>Emails</li>
-                <li>Addresses</li>
-                <li>Relatives</li>
-                <li>Social media</li>
-            </ul>
-        </div>
-    </div>
-    
-    <!-- Module 3: Core OSINT Tools and Techniques -->
-    <div id="module-3" class="module-content">
-        <h2>Core OSINT Tools</h2>
-        
-        <div class="tool-section">
-            <h3>Search Engine Mastery</h3>
-            <a href="https://www.google.com" class="tool-link">Google Search</a>
-            <a href="https://yandex.com" class="tool-link">Yandex</a>
-            
-            <div class="exercise">
-                <h4>Google Dorking Exercise</h4>
-                <p>Find PDF files about a specific topic from 2020:</p>
-                <input type="text" id="dork-topic" placeholder="Enter topic">
-                <button onclick="generateDork()">Generate Dork</button>
-                <div id="dork-result" class="dork-result" style="display:none;"></div>
+            <div class="tool-card" data-category="people">
+                <h3>Radaris</h3>
+                <p>People search with professional and social media profiles</p>
+                <a href="https://radaris.com" class="tool-link" target="_blank">Open Tool</a>
             </div>
         </div>
-        
-        <div class="tool-section">
-            <h3>People Search</h3>
-            <a href="https://fastpeoplesearch.com" class="tool-link">FastPeopleSearch</a>
-            <a href="https://www.truepeoplesearch.com" class="tool-link">TruePeopleSearch</a>
-        </div>
-        
-        <div class="tool-section">
-            <h3>Username Search</h3>
-            <a href="https://whatsmyname.app" class="tool-link">WhatsMyName.app</a>
+    </div>
+    
+    <div class="tool-section">
+        <h2>Domain & Website Intelligence</h2>
+        <div class="tool-grid" id="domain-tools">
+            <div class="tool-card" data-category="domain">
+                <h3>WHOIS Lookup</h3>
+                <p>Find domain registration information and ownership details</p>
+                <a href="https://whois.domaintools.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="domain">
+                <h3>Wayback Machine</h3>
+                <p>View historical versions of any website</p>
+                <a href="https://archive.org/web" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="domain">
+                <h3>VirusTotal</h3>
+                <p>Analyze websites and files for malware and reputation</p>
+                <a href="https://www.virustotal.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="domain">
+                <h3>BuiltWith</h3>
+                <p>Discover what technologies a website is using</p>
+                <a href="https://builtwith.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
         </div>
     </div>
     
-    <!-- Module 4-8 would follow similar structure -->
+    <div class="tool-section">
+        <h2>Social Media Intelligence</h2>
+        <div class="tool-grid" id="social-tools">
+            <div class="tool-card" data-category="social">
+                <h3>WhatsMyName</h3>
+                <p>Username search across hundreds of social networks</p>
+                <a href="https://whatsmyname.app" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="social">
+                <h3>Social Searcher</h3>
+                <p>Search across multiple social networks simultaneously</p>
+                <a href="https://www.social-searcher.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="social">
+                <h3>TweetDeck</h3>
+                <p>Advanced Twitter search and monitoring</p>
+                <a href="https://tweetdeck.twitter.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+        </div>
+    </div>
     
-    <!-- Module 8: OSINT Toolkits and Resources -->
-    <div id="module-8" class="module-content">
-        <h2>OSINT Resources</h2>
-        
-        <div class="tool-section">
-            <h3>People Search</h3>
-            <a href="https://fastpeoplesearch.com" class="tool-link">FastPeopleSearch</a>
-            <a href="https://www.truepeoplesearch.com" class="tool-link">TruePeopleSearch</a>
-            <a href="https://radaris.com" class="tool-link">Radaris</a>
+    <div class="tool-section">
+        <h2>Image Search & Analysis</h2>
+        <div class="tool-grid" id="image-tools">
+            <div class="tool-card" data-category="images">
+                <h3>Google Images</h3>
+                <p>Reverse image search with powerful filters</p>
+                <a href="https://images.google.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="images">
+                <h3>TinEye</h3>
+                <p>Find where images appear online</p>
+                <a href="https://tineye.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="images">
+                <h3>Yandex Images</h3>
+                <p>Powerful reverse image search with facial recognition</p>
+                <a href="https://yandex.com/images" class="tool-link" target="_blank">Open Tool</a>
+            </div>
         </div>
-        
-        <div class="tool-section">
-            <h3>Social Media</h3>
-            <a href="https://whatsmyname.app" class="tool-link">WhatsMyName.app</a>
-        </div>
-        
-        <div class="tool-section">
-            <h3>Domain Tools</h3>
-            <a href="https://whois.domaintools.com" class="tool-link">WHOIS Lookup</a>
-            <a href="https://archive.org/web" class="tool-link">Wayback Machine</a>
-        </div>
-        
-        <div class="tool-section">
-            <h3>Breach Data</h3>
-            <a href="https://haveibeenpwned.com" class="tool-link">HaveIBeenPwned</a>
+    </div>
+    
+    <div class="tool-section">
+        <h2>Data Breaches & Security</h2>
+        <div class="tool-grid">
+            <div class="tool-card" data-category="security">
+                <h3>Have I Been Pwned</h3>
+                <p>Check if your email appears in data breaches</p>
+                <a href="https://haveibeenpwned.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
+            <div class="tool-card" data-category="security">
+                <h3>DeHashed</h3>
+                <p>Search across multiple data breaches</p>
+                <a href="https://www.dehashed.com" class="tool-link" target="_blank">Open Tool</a>
+            </div>
         </div>
     </div>
 
     <script>
-        // Show selected module, hide others
-        function showModule(moduleNum) {
-            document.querySelectorAll('.module-content').forEach(el => {
-                el.classList.remove('active');
+        // Search functionality
+        document.getElementById('search').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.tool-card');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
-            document.querySelectorAll('.module-nav button').forEach(btn => {
-                btn.classList.remove('active');
+        });
+        
+        // Category filtering
+        function showCategory(category) {
+            const cards = document.querySelectorAll('.tool-card');
+            
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    if (card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
             });
-            document.getElementById(`module-${moduleNum}`).classList.add('active');
-            event.target.classList.add('active');
         }
         
-        // Toggle info displays
-        function toggleInfo(id) {
-            const el = document.getElementById(id);
-            el.style.display = el.style.display === 'none' ? 'block' : 'none';
-        }
-        
-        // Google dork generator
-        function generateDork() {
-            const topic = document.getElementById('dork-topic').value.trim();
-            if (topic) {
-                const dork = `filetype:pdf ${topic} after:2019-12-31 before:2021-01-01`;
-                const resultEl = document.getElementById('dork-result');
-                resultEl.textContent = dork;
-                resultEl.style.display = 'block';
-                
-                // Copy to clipboard
-                navigator.clipboard.writeText(dork).then(() => {
-                    alert('Dork copied to clipboard!');
-                });
-            }
-        }
-        
-        // Initialize with Module 1 active
+        // Initialize with all tools showing
         document.addEventListener('DOMContentLoaded', function() {
-            // Any initialization code can go here
+            showCategory('all');
         });
     </script>
 </body>
